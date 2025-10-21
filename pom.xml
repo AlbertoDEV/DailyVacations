@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!--
+        BLOQUE PADRE (PARENT)
+        Heredamos de `spring-boot-starter-parent`. Esto es una gran ventaja, ya que nos proporciona
+        configuraciones por defecto y gestiona las versiones de las dependencias compatibles con Spring Boot,
+        evitando conflictos y simplificando la declaración de dependencias.
+    -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.3</version> <!-- Usamos una versión reciente y estable de Spring Boot -->
+        <relativePath/> <!-- lookup parent from repository -->
+    </parent>
+
+    <!--
+        COORDENADAS DEL PROYECTO
+        Información básica que identifica nuestro proyecto.
+    -->
+    <groupId>com.dailyvacations</groupId>
+    <artifactId>dailyvacations</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <name>dailyvacations</name>
+    <description>Aplicación web de álbumes de fotos DailyVacations</description>
+
+    <!--
+        PROPIEDADES
+        Aquí definimos variables que se pueden usar en otras partes del POM, como la versión de Java.
+    -->
+    <properties>
+        <java.version>17</java.version>
+    </properties>
+
+    <!--
+        DEPENDENCIAS
+        Aquí listamos todas las librerías que nuestro proyecto necesita. Maven las descargará automáticamente.
+        Gracias al `parent`, no necesitamos especificar la versión para la mayoría de ellas.
+    -->
+    <dependencies>
+        <!-- Para construir aplicaciones web, incluyendo RESTful, con Spring MVC. Usa Tomcat por defecto. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- Para usar Thymeleaf como motor de plantillas HTML. -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- Para manejar la seguridad (autenticación y autorización). -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <!--
+            Proporciona la integración de Thymeleaf con Spring Security.
+            Es necesario para usar atributos como `sec:authentication` en las plantillas.
+        -->
+        <dependency>
+            <groupId>org.thymeleaf.extras</groupId>
+            <artifactId>thymeleaf-extras-springsecurity6</artifactId>
+        </dependency>
+
+        <!-- Para la persistencia de datos con JPA (Java Persistence API). -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Driver de PostgreSQL para conectar con la base de datos. -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+    </dependencies>
+
+    <!--
+        CONSTRUCCIÓN (BUILD)
+        Configuración sobre cómo se debe construir el proyecto.
+    -->
+    <build>
+        <plugins>
+            <!--
+                Plugin de Spring Boot para Maven.
+                Es fundamental, ya que empaqueta la aplicación en un único JAR "fat" o "uber"
+                que contiene todas las dependencias y es directamente ejecutable con `java -jar`.
+            -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

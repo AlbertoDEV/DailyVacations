@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{album.create.title}">Create New Album</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a th:href="@{/home}"><h1 th:text="#{welcome.title}">Álbum Solar</h1></a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div id="translation-container" style="display: none;"
+             th:attr="data-day=#{album.create.day},
+                        data-pagetext=#{album.create.pagetext},
+                        data-pagetext-placeholder=#{album.create.pagetext.placeholder},
+                        data-photo=#{album.create.photo},
+                        data-description=#{album.create.description},
+                        data-description-placeholder=#{album.create.description.placeholder}">
+        </div>
+
+        <div class="form-container">
+            <h2 th:text="#{album.create.title}">Create New Album</h2>
+            <form th:action="@{/albums/create}" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="albumName" th:text="#{album.name}">Album Name</label>
+                    <input type="text" id="albumName" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="albumDescription" th:text="#{album.description}">Description</label>
+                    <textarea id="albumDescription" name="description" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="daysCount" th:text="#{album.days_count}">Number of Days</label>
+                    <input type="number" id="daysCount" name="daysCount" min="1" max="30" required>
+                </div>
+
+                <div id="dynamic-fields-container">
+                    <!-- JavaScript will insert day fields here -->
+                </div>
+
+                <button type="submit" class="btn" th:text="#{album.create.submit}">Create Album</button>
+            </form>
+        </div>
+    </main>
+
+    <script src="/js/create-album.js"></script>
+</body>
+</html>

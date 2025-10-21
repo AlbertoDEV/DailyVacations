@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{login.title}">Login</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a th:href="@{/}"><h1 th:text="#{welcome.title}">Álbum Solar</h1></a>
+            </div>
+            <nav>
+                 <div class="language-selector">
+                    <a href="?lang=es">ES</a> | <a href="?lang=en">EN</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <h2 th:text="#{login.title}">Login</h2>
+            <form th:action="@{/login}" method="post">
+                <!-- Mensaje de éxito tras el registro -->
+                <div th:if="${param.success}" class="success-message">
+                    <p th:text="#{register.success}"></p>
+                </div>
+
+                <div th:if="${param.error}" class="error-message">
+                    <p th:text="#{login.error}">Invalid username or password.</p>
+                </div>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                <div class="form-group">
+                    <label for="username" th:text="#{login.username}">Username</label>
+                    <input type="text" id="username" name="username" required autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="password" th:text="#{login.password}">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn" th:text="#{login.submit}">Sign In</button>
+            </form>
+        </div>
+    </main>
+
+</body>
+</html>
