@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${album.name}">Album View</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/album-view.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a th:href="@{/home}"><h1 th:text="#{welcome.title}">Álbum Solar</h1></a>
+            </div>
+        </div>
+    </header>
+
+    <main class="album-viewport">
+        <!-- Book container -->
+        <div id="book" class="book">
+            <!-- Cover Page -->
+            <div class="page cover">
+                <!-- Front of the cover -->
+                <div class="page-content page-front">
+                    <h2 th:text="${album.name}">Album Title</h2>
+                    <p th:text="${album.description}">Album Description</p>
+                </div>
+                <!-- Back of the cover (Text for Day 1) -->
+                <div class="page-content page-back">
+                    <div class="page-text-container" th:if="${!#lists.isEmpty(album.days)}">
+                        <p th:text="${album.days[0].pageText}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Day Pages - Each page now has a front and a back -->
+            <div th:each="day, iterStat : ${album.days}" class="page">
+                <!-- Front of the page (Photos) -->
+                <div class="page-content page-front">
+                    <h3 th:text="#{album.view.day} + ' ' + ${iterStat.count}">Day X</h3>
+                    <div class="photo-fan-container">
+                        <div th:each="photo, photoStat : ${day.photos}" class="photo-item">
+                            <div class="polaroid-image">
+                                <img th:if="${photo.imageData}" th:src="'data:image/jpeg;base64,' + ${photo.imageData}" th:alt="${photo.description}" th:attr="data-description=${photo.description}">
+                                <div th:unless="${photo.imageData}" class="photo-placeholder" th:text="#{album.view.no_image}">No Image</div>
+                            </div>
+                            <div class="polaroid-caption" th:text="${photo.description}">Photo caption</div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Back of the page (Text from the *next* day) -->
+                <div class="page-content page-back">
+                    <div class="page-text-container" th:if="${!iterStat.last}">
+                        <!-- Get the text from the NEXT day -->
+                        <p th:text="${album.days[iterStat.index + 1].pageText}"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blank back cover -->
+            <div class="page back-cover"></div>
+        </div>
+
+        <!-- Navigation Arrows -->
+        <div id="prev-page" class="nav-arrow prev">&lt;</div>
+        <div id="next-page" class="nav-arrow next">&gt;</div>
+    </main>
+
+    <!-- Modal for enlarged photo view with Polaroid style -->
+    <div id="photo-modal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-polaroid">
+            <div class="polaroid-image">
+                <img id="modal-image">
+            </div>
+            <div class="polaroid-caption" id="modal-caption"></div>
+        </div>
+    </div>
+
+    <script src="/js/album-view.js"></script>
+</body>
+</html>

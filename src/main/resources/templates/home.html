@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="#{home.title}">Home</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo">
+                <a th:href="@{/}"><h1 th:text="#{welcome.title}">Álbum Solar</h1></a>
+            </div>
+            <nav>
+                <ul class="nav-links">
+                    <li>
+                        <form th:action="@{/logout}" method="post">
+                            <button type="submit" class="btn-logout" th:text="#{home.logout}">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="home-container">
+            <div class="home-header">
+                <h2 th:text="#{home.welcome(${#authentication.name})}">Welcome, [user]!</h2>
+                <a th:href="@{/albums/new}" class="btn" th:text="#{album.create.title}">Create New Album</a>
+            </div>
+
+            <div class="album-grid">
+                <!-- Loop through user's albums -->
+                <div th:if="${#lists.isEmpty(albums)}" class="no-albums-message">
+                    <p th:text="#{home.no_albums}">You don't have any albums yet. Create one to get started!</p>
+                </div>
+
+                <a th:each="album : ${albums}" th:href="@{/albums/view/{id}(id=${album.id})}">
+                    <div class="album-card">
+                        <div class="album-thumbnail">
+                            <!-- Placeholder for thumbnail -->
+                        </div>
+                        <div class="album-info">
+                            <h3 th:text="${album.name}">Album Name</h3>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>
